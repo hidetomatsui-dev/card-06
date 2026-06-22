@@ -91,7 +91,10 @@ export default function App() {
     setState(prev => ({ ...prev, ...updates }));
   };
 
-  const goToStep = (step: number) => update({ currentStep: step });
+  const goToStep = (step: number) => {
+    update({ currentStep: step });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const steps = [
     <Intro key={0} state={state} update={update} onNext={() => goToStep(1)} />,
@@ -110,14 +113,14 @@ export default function App() {
       />
 
       <main className="relative max-w-4xl mx-auto pt-28 pb-20 px-4">
-        <AnimatePresence mode="popLayout">
+        <AnimatePresence mode="wait">
           <motion.div
             key={state.currentStep}
             variants={pageVariants}
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{ duration: 0.25, ease: 'easeInOut' }}
+            transition={{ duration: 0.2, ease: 'easeInOut' }}
           >
             {steps[state.currentStep]}
           </motion.div>

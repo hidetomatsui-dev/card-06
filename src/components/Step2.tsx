@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
 import type { AppState, ValueSortResult } from '../types';
 import { valueCards } from '../data/valueCards';
@@ -160,6 +160,14 @@ export default function Step2({ state, update, onNext, onBack }: Props) {
     : p3 !== null ? 'episodes'
     : p2.length === 3 ? 'pick1'
     : 'pick3';
+
+  const prevPhase = useRef(uiPhase);
+  useEffect(() => {
+    if (prevPhase.current !== uiPhase) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      prevPhase.current = uiPhase;
+    }
+  }, [uiPhase]);
 
   return (
     <div>
