@@ -30,65 +30,67 @@ export default function ProgressBar({ currentStep, onStepClick, className = '' }
         </div>
 
         {/* Step indicators */}
-        <div className="relative">
-          {/* Progress line background */}
-          <div className="absolute top-3 left-0 right-0 h-0.5 bg-gray-200 mx-6" />
-          {/* Progress fill */}
+        <div className="relative h-10">
+          {/* Background line */}
+          <div className="absolute top-3 left-0 right-0 h-0.5 bg-gray-200" />
+
+          {/* Progress fill — width matches center of current dot */}
           <motion.div
-            className="absolute top-3 left-0 h-0.5 bg-indigo-500 mx-6"
+            className="absolute top-3 left-0 h-0.5 bg-indigo-500"
             initial={false}
-            animate={{ width: `calc(${progress}% - 3rem)` }}
+            animate={{ width: `${progress}%` }}
             transition={{ duration: 0.4, ease: 'easeInOut' }}
           />
 
-          <div className="relative flex justify-between">
-            {STEPS.map((step, i) => {
-              const isCompleted = i < currentStep;
-              const isCurrent = i === currentStep;
-              const isClickable = i <= currentStep + 1;
+          {/* Dots — absolutely positioned at exact percentages */}
+          {STEPS.map((step, i) => {
+            const leftPct = (i / (STEPS.length - 1)) * 100;
+            const isCompleted = i < currentStep;
+            const isCurrent = i === currentStep;
+            const isClickable = i <= currentStep + 1;
 
-              return (
-                <button
-                  key={i}
-                  onClick={() => isClickable && onStepClick(i)}
-                  disabled={!isClickable}
-                  className={`flex flex-col items-center gap-1 group transition-all ${
-                    isClickable ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
+            return (
+              <button
+                key={i}
+                onClick={() => isClickable && onStepClick(i)}
+                disabled={!isClickable}
+                style={{ left: `${leftPct}%`, transform: 'translateX(-50%)' }}
+                className={`absolute top-0 flex flex-col items-center gap-1 transition-all ${
+                  isClickable ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
+                }`}
+              >
+                {/* Circle */}
+                <motion.div
+                  className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-all ${
+                    isCurrent
+                      ? 'bg-indigo-600 border-indigo-600 text-white shadow-lg shadow-indigo-200'
+                      : isCompleted
+                      ? 'bg-indigo-600 border-indigo-600 text-white'
+                      : 'bg-white border-gray-300 text-gray-400'
+                  }`}
+                  animate={isCurrent ? { scale: [1, 1.15, 1] } : {}}
+                  transition={{ duration: 0.4 }}
+                >
+                  {isCompleted ? (
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                    </svg>
+                  ) : (
+                    <span>{i === 0 ? '▶' : i}</span>
+                  )}
+                </motion.div>
+
+                {/* Label */}
+                <span
+                  className={`text-xs font-semibold hidden sm:block whitespace-nowrap transition-colors ${
+                    isCurrent ? 'text-indigo-700' : isCompleted ? 'text-indigo-500' : 'text-gray-400'
                   }`}
                 >
-                  {/* Circle */}
-                  <motion.div
-                    className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-all ${
-                      isCurrent
-                        ? 'bg-indigo-600 border-indigo-600 text-white shadow-lg shadow-indigo-200'
-                        : isCompleted
-                        ? 'bg-indigo-600 border-indigo-600 text-white'
-                        : 'bg-white border-gray-300 text-gray-400'
-                    }`}
-                    animate={isCurrent ? { scale: [1, 1.15, 1] } : {}}
-                    transition={{ duration: 0.4 }}
-                  >
-                    {isCompleted ? (
-                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                      </svg>
-                    ) : (
-                      <span>{i === 0 ? '▶' : i}</span>
-                    )}
-                  </motion.div>
-
-                  {/* Label */}
-                  <span
-                    className={`text-xs font-semibold hidden sm:block transition-colors ${
-                      isCurrent ? 'text-indigo-700' : isCompleted ? 'text-indigo-500' : 'text-gray-400'
-                    }`}
-                  >
-                    {step.short}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
+                  {step.short}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
     </header>
