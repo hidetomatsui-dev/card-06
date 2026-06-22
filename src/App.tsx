@@ -10,6 +10,7 @@ import Step2 from './components/Step2';
 import Step3 from './components/Step3';
 import Step4 from './components/Step4';
 import ExportPanel from './components/ExportPanel';
+import PrintView from './components/PrintView';
 
 const STORAGE_KEY = 'career-workshop-v1';
 
@@ -137,6 +138,9 @@ export default function App() {
       </main>
 
       {state.currentStep === 4 && <ExportPanel state={state} />}
+
+      {/* 印刷時のみ表示する全ステップ結果 */}
+      <PrintView state={state} />
     </div>
   );
 }
