@@ -106,13 +106,22 @@ export default function App() {
 
   return (
     <div className="min-h-screen">
+      {/* 印刷時のみ表示するヘッダー（通常時は非表示、fixed なし） */}
+      <div className="hidden print-only p-4 border-b border-gray-300 mb-4">
+        <h1 className="text-lg font-bold">キャリアの軸ワークショップ　提出用ワークシート</h1>
+        <p className="text-sm text-gray-600">
+          氏名: {state.name || '　　　　　　'} &nbsp;&nbsp;
+          作成日: {new Date().toLocaleDateString('ja-JP')}
+        </p>
+      </div>
+
       <ProgressBar
         currentStep={state.currentStep}
         onStepClick={goToStep}
         className="no-print"
       />
 
-      <main className="relative max-w-4xl mx-auto pt-28 pb-20 px-4">
+      <main className="relative max-w-4xl mx-auto pt-28 pb-20 px-4 print:pt-0 print:px-0">
         <AnimatePresence mode="wait">
           <motion.div
             key={state.currentStep}
@@ -128,14 +137,6 @@ export default function App() {
       </main>
 
       {state.currentStep === 4 && <ExportPanel state={state} />}
-
-      <div className="hidden print-only fixed top-0 left-0 right-0 p-4 border-b border-gray-300">
-        <h1 className="text-lg font-bold">キャリアの軸ワークショップ　提出用ワークシート</h1>
-        <p className="text-sm text-gray-600">
-          氏名: {state.name || '　　　　　　'} &nbsp;&nbsp;
-          作成日: {new Date().toLocaleDateString('ja-JP')}
-        </p>
-      </div>
     </div>
   );
 }

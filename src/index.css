@@ -73,6 +73,12 @@
     color: #1a1a1a;
   }
 
+  main {
+    padding-top: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
   .print-page {
     page-break-after: always;
   }
