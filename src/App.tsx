@@ -3,6 +3,7 @@ import type { AppState } from './types';
 import { ohbyCards } from './data/ohbyCards';
 import { valueCards } from './data/valueCards';
 import ProgressBar from './components/ProgressBar';
+import Login from './components/Login';
 import Intro from './components/Intro';
 import Step1 from './components/Step1';
 import Step2 from './components/Step2';
@@ -77,7 +78,12 @@ function loadState(): AppState {
 
 
 export default function App() {
+  const [authed, setAuthed] = useState(() => sessionStorage.getItem('auth') === '1');
   const [state, setState] = useState<AppState>(loadState);
+
+  if (!authed) {
+    return <Login onLogin={() => setAuthed(true)} />;
+  }
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
