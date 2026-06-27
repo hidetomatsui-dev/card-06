@@ -223,7 +223,7 @@ export default function Step3({ state, update, onNext, onBack }: Props) {
                 <thead>
                   <tr>
                     <th className="p-3 bg-gray-50 border border-gray-200 text-gray-500 text-xs font-semibold min-w-[90px] sticky left-0 z-10">
-                      価値観 ＼ タイプ
+                      価値観 ＼ 職業興味
                     </th>
                     {matrixTypes.map(t => (
                       <th key={t} className="p-3 bg-gray-50 border border-gray-200 min-w-[120px]">

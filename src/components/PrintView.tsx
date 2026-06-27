@@ -128,7 +128,7 @@ export default function PrintView({ state }: Props) {
             <table className="w-full border-collapse print-matrix text-xs">
               <thead>
                 <tr>
-                  <th className="border border-gray-300 p-1.5 bg-gray-50 text-left">価値観 ＼ タイプ</th>
+                  <th className="border border-gray-300 p-1.5 bg-gray-50 text-left">価値観 ＼ 職業興味</th>
                   {matrixTypes.map(t => (
                     <th key={t} className="border border-gray-300 p-1.5 bg-gray-50">{t}型</th>
                   ))}
