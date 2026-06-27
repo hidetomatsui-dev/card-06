@@ -30,9 +30,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
 
     await transporter.sendMail({
-      from: `"キャリアの軸ワークショップ" <${gmailUser}>`,
+      from: `"職業興味×価値観ワークショップ" <${gmailUser}>`,
       to,
-      subject: subject || 'キャリアの軸ワークショップ 結果レポート',
+      subject: subject || '職業興味×価値観ワークショップ 結果レポート',
       text: message,
     });
 

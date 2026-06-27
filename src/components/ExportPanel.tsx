@@ -13,8 +13,8 @@ async function sendReport(state: AppState): Promise<'sent' | 'skipped' | 'error'
 
   const message = generatePlainText(state);
   const subject = state.name
-    ? `キャリアの軸ワークショップ レポート - ${state.name}`
-    : 'キャリアの軸ワークショップ レポート';
+    ? `職業興味×価値観ワークショップ レポート - ${state.name}`
+    : '職業興味×価値観ワークショップ レポート';
 
   try {
     const res = await fetch('https://api.web3forms.com/submit', {
@@ -82,8 +82,8 @@ export default function ExportPanel({ state }: Props) {
     setEmailStatus('sending');
     const text = generatePlainText(state);
     const subject = state.name
-      ? `キャリアの軸ワークショップ 結果レポート - ${state.name}`
-      : 'キャリアの軸ワークショップ 結果レポート';
+      ? `職業興味×価値観ワークショップ 結果レポート - ${state.name}`
+      : '職業興味×価値観ワークショップ 結果レポート';
 
     try {
       const res = await fetch('/api/send-email', {

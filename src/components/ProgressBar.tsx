@@ -22,7 +22,7 @@ export default function ProgressBar({ currentStep, onStepClick, className = '' }
       <div className="max-w-4xl mx-auto px-4 py-3">
         <div className="flex items-center justify-between mb-2.5">
           <h1 className="text-sm font-bold text-indigo-700 tracking-tight hidden sm:block">
-            キャリアの軸ワークショップ
+            職業興味×価値観ワークショップ
           </h1>
           <div className="flex items-center gap-3">
             <p className="text-xs text-gray-400 hidden sm:block">

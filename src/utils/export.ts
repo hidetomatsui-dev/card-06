@@ -11,7 +11,7 @@ export function generatePlainText(state: AppState): string {
   const sub = '─'.repeat(40);
 
   lines.push(sep);
-  lines.push('キャリアの軸ワークショップ　提出用ワークシート');
+  lines.push('職業興味×価値観ワークショップ　提出用ワークシート');
   lines.push(`氏名: ${state.name || '未入力'}　　作成日: ${new Date().toLocaleDateString('ja-JP')}`);
   lines.push(sep);
   lines.push('');

@@ -104,7 +104,7 @@ export default function App() {
     <div className="min-h-screen">
       {/* 印刷時のみ表示するヘッダー（通常時は非表示、fixed なし） */}
       <div className="hidden print-only p-4 border-b border-gray-300 mb-4">
-        <h1 className="text-lg font-bold">キャリアの軸ワークショップ　提出用ワークシート</h1>
+        <h1 className="text-lg font-bold">職業興味×価値観ワークショップ　提出用ワークシート</h1>
         <p className="text-sm text-gray-600">
           氏名: {state.name || '　　　　　　'} &nbsp;&nbsp;
           作成日: {new Date().toLocaleDateString('ja-JP')}
