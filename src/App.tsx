@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
 import type { AppState } from './types';
 import { ohbyCards } from './data/ohbyCards';
 import { valueCards } from './data/valueCards';
@@ -76,11 +75,6 @@ function loadState(): AppState {
   };
 }
 
-const pageVariants = {
-  enter: { opacity: 0, y: 16 },
-  center: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -16 },
-};
 
 export default function App() {
   const [state, setState] = useState<AppState>(loadState);
@@ -124,18 +118,9 @@ export default function App() {
       />
 
       <main className="relative max-w-4xl mx-auto pt-28 pb-20 px-4 print:pt-0 print:px-0">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={state.currentStep}
-            variants={pageVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{ duration: 0.2, ease: 'easeInOut' }}
-          >
-            {steps[state.currentStep]}
-          </motion.div>
-        </AnimatePresence>
+        <div key={state.currentStep}>
+          {steps[state.currentStep]}
+        </div>
       </main>
 
       {state.currentStep === 4 && <ExportPanel state={state} />}
