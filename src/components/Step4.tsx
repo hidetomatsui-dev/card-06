@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { AppState } from '../types';
 import { valueCards } from '../data/valueCards';
+import { generatePlainText } from '../utils/export';
 
 interface Props {
   state: AppState;
@@ -35,10 +36,11 @@ export default function Step4({ state, update, onBack }: Props) {
     setAnalysisResult('');
     setAnalysisError('');
     try {
+      const worksheetText = generatePlainText(state);
       const res = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(state),
+        body: JSON.stringify({ worksheetText }),
       });
       const data = await res.json() as { result?: string; error?: string; detail?: string };
       if (!res.ok) {
