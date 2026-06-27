@@ -119,7 +119,7 @@ export default function PrintView({ state }: Props) {
       {/* ── Step 3 ── */}
       <section className="print-section">
         <h2 className="text-base font-bold border-b-2 border-gray-800 pb-1 mb-3">
-          【Step 3】 統合と納得（Alignment）
+          【Step 3】 職業興味×価値観（Alignment）
         </h2>
 
         {top3Cards.length > 0 && matrixTypes.length > 0 && (

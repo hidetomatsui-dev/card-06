@@ -84,7 +84,7 @@ export function generatePlainText(state: AppState): string {
   lines.push('');
 
   // Step 3
-  lines.push('【Step 3】 統合と納得（Alignment）');
+  lines.push('【Step 3】 職業興味×価値観（Alignment）');
   lines.push(sub);
 
   lines.push('■ マイ・統合マトリクス（価値観 × 職業興味のタイプ）:');

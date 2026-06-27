@@ -10,7 +10,7 @@ interface Props {
 const features = [
   { icon: '🃏', label: 'Step 1', title: '職業興味の可視化', desc: '48枚の職業興味カードを仕分けて職業興味のタイプを特定' },
   { icon: '💎', label: 'Step 2', title: 'キャリアの価値観の可視化', desc: '60枚の価値観カードを仕分けて大切な価値観TOP3を選ぶ' },
-  { icon: '🗺️', label: 'Step 3', title: '統合と納得',   desc: '興味×価値観のマトリクスで「働き方のレシピ」を言語化' },
+  { icon: '🗺️', label: 'Step 3', title: '職業興味×価値観',   desc: '興味×価値観のマトリクスで「働き方のレシピ」を言語化' },
   { icon: '🚀', label: 'Step 4', title: '行動への橋渡し', desc: '24時間以内のスモールステップを設定する' },
 ];
 

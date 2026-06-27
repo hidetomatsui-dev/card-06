@@ -184,7 +184,7 @@ export default function Step3({ state, update, onNext, onBack }: Props) {
       <div className="flex items-center gap-3 mb-8">
         <span className="w-10 h-10 bg-indigo-600 text-white rounded-xl flex items-center justify-center font-black text-lg shrink-0">3</span>
         <div>
-          <h2 className="text-2xl font-extrabold text-gray-900">統合と納得</h2>
+          <h2 className="text-2xl font-extrabold text-gray-900">職業興味×価値観</h2>
           <p className="text-sm text-gray-500">Alignment — 興味と価値観が交差する「働き方のレシピ」を言語化する</p>
         </div>
       </div>
