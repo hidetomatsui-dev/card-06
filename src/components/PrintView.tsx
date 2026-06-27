@@ -207,6 +207,18 @@ export default function PrintView({ state }: Props) {
         </div>
       </section>
 
+      {/* ── AI分析 ── */}
+      {state.aiAnalysis && (
+        <section className="print-section">
+          <h2 className="text-base font-bold border-b-2 border-gray-800 pb-1 mb-3">
+            【AI キャリア分析】
+          </h2>
+          <p className="text-xs border border-gray-300 rounded p-3 whitespace-pre-wrap leading-relaxed">
+            {state.aiAnalysis}
+          </p>
+        </section>
+      )}
+
     </div>
   );
 }

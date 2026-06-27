@@ -133,6 +133,16 @@ export function generatePlainText(state: AppState): string {
   lines.push('■ 今日の一文まとめ:');
   lines.push(state.finalSummary ? `  ${state.finalSummary}` : '  （未記入）');
   lines.push('');
+
+  // AI分析
+  if (state.aiAnalysis) {
+    lines.push(sep);
+    lines.push('【AI キャリア分析】');
+    lines.push(sub);
+    lines.push(state.aiAnalysis);
+    lines.push('');
+  }
+
   lines.push(sep);
 
   return lines.join('\n');

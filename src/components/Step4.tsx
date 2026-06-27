@@ -13,8 +13,9 @@ interface Props {
 type AnalysisStatus = 'idle' | 'loading' | 'done' | 'error';
 
 export default function Step4({ state, update, onBack }: Props) {
-  const [analysisStatus, setAnalysisStatus] = useState<AnalysisStatus>('idle');
-  const [analysisResult, setAnalysisResult] = useState<string>('');
+  const [analysisStatus, setAnalysisStatus] = useState<AnalysisStatus>(
+    state.aiAnalysis ? 'done' : 'idle'
+  );
   const [analysisError, setAnalysisError] = useState<string>('');
 
   const top3Cards = valueCards.filter(c => state.phase2Selected.includes(c.id));
@@ -33,7 +34,7 @@ export default function Step4({ state, update, onBack }: Props) {
 
   const handleAnalyze = async () => {
     setAnalysisStatus('loading');
-    setAnalysisResult('');
+    update({ aiAnalysis: '' });
     setAnalysisError('');
     try {
       const worksheetText = generatePlainText(state);
@@ -48,7 +49,7 @@ export default function Step4({ state, update, onBack }: Props) {
         setAnalysisStatus('error');
         return;
       }
-      setAnalysisResult(data.result ?? '');
+      update({ aiAnalysis: data.result ?? '' });
       setAnalysisStatus('done');
     } catch (err) {
       setAnalysisError(String(err));
@@ -236,7 +237,7 @@ export default function Step4({ state, update, onBack }: Props) {
               >
                 <div className="bg-gradient-to-br from-indigo-50 to-violet-50 border border-indigo-100 rounded-xl p-5 mb-4">
                   <p className="text-sm text-gray-800 leading-relaxed whitespace-pre-wrap">
-                    {analysisResult}
+                    {state.aiAnalysis}
                   </p>
                 </div>
                 <button

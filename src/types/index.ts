@@ -67,6 +67,7 @@ export interface AppState {
   careerDirection: string;
   actions: [string, string, string];
   finalSummary: string;
+  aiAnalysis: string;
 }
 
 export const RIASEC_LABELS: Record<RIASECType, string> = {

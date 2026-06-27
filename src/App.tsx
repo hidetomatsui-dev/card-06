@@ -47,6 +47,7 @@ const defaultState: AppState = {
   careerDirection: '',
   actions: ['', '', ''],
   finalSummary: '',
+  aiAnalysis: '',
 };
 
 function loadState(): AppState {
