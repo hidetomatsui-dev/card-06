@@ -14,6 +14,7 @@ type AnalysisStatus = 'idle' | 'loading' | 'done' | 'error';
 export default function Step4({ state, update, onBack }: Props) {
   const [analysisStatus, setAnalysisStatus] = useState<AnalysisStatus>('idle');
   const [analysisResult, setAnalysisResult] = useState<string>('');
+  const [analysisError, setAnalysisError] = useState<string>('');
 
   const top3Cards = valueCards.filter(c => state.phase2Selected.includes(c.id));
   const top1Card  = valueCards.find(c => c.id === state.phase3Selected);
@@ -32,17 +33,23 @@ export default function Step4({ state, update, onBack }: Props) {
   const handleAnalyze = async () => {
     setAnalysisStatus('loading');
     setAnalysisResult('');
+    setAnalysisError('');
     try {
       const res = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(state),
       });
-      if (!res.ok) throw new Error('API error');
-      const data = await res.json() as { result: string };
-      setAnalysisResult(data.result);
+      const data = await res.json() as { result?: string; error?: string; detail?: string };
+      if (!res.ok) {
+        setAnalysisError(`${data.error ?? 'API error'}: ${data.detail ?? ''}`);
+        setAnalysisStatus('error');
+        return;
+      }
+      setAnalysisResult(data.result ?? '');
       setAnalysisStatus('done');
-    } catch {
+    } catch (err) {
+      setAnalysisError(String(err));
       setAnalysisStatus('error');
     }
   };
@@ -246,9 +253,14 @@ export default function Step4({ state, update, onBack }: Props) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
-                <p className="text-sm text-red-500 mb-4">
+                <p className="text-sm text-red-500 mb-2">
                   分析に失敗しました。しばらく時間をおいて再試行してください。
                 </p>
+                {analysisError && (
+                  <p className="text-xs text-red-400 bg-red-50 rounded p-2 mb-3 break-all">
+                    {analysisError}
+                  </p>
+                )}
                 <button
                   onClick={handleAnalyze}
                   className="btn-secondary text-sm w-full"

@@ -102,7 +102,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
 
     if (!response.ok) {
-      throw new Error(`Gemini API error: ${response.status}`);
+      const errBody = await response.text();
+      console.error('Gemini API error:', response.status, errBody);
+      return res.status(500).json({ error: `Gemini API error: ${response.status}`, detail: errBody });
     }
 
     const data = await response.json() as {
@@ -113,6 +115,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(200).json({ result: text });
   } catch (err) {
     console.error('AI analyze error:', err);
-    return res.status(500).json({ error: 'Analysis failed' });
+    return res.status(500).json({ error: 'Analysis failed', detail: String(err) });
   }
 }
