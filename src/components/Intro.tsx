@@ -27,27 +27,14 @@ export default function Intro({ state, update, onNext }: Props) {
         className="text-center mb-10"
       >
         <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-indigo-100 text-indigo-700 rounded-full text-sm font-semibold mb-6">
-          <span>🧭</span> オンライン版 セルフワーク
+          <span>🧭</span> オンライン版 ver6
         </div>
 
         <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight mb-6">
-          自分のキャリアの
-          <span className="text-indigo-600">「軸」</span>
-          を見つける
+          職業興味×価値観で自己理解を深める
           <br />
           ワークショップ
         </h1>
-
-        <div className="card-base p-6 text-left mb-8">
-          <p className="text-base text-gray-700 leading-relaxed">
-            キャリアの軸は「一度決めたら変えられないタトゥー」ではなく、
-            <strong className="text-indigo-700">「何度でもルートを変更できるカーナビ」</strong>
-            のようなものです。
-          </p>
-          <p className="text-base text-gray-700 leading-relaxed mt-3">
-            正解主義を手放し、直感で進めていきましょう。
-          </p>
-        </div>
       </motion.div>
 
       {/* Steps overview */}
