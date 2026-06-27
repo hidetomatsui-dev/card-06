@@ -1,10 +1,6 @@
 import { useState, useEffect } from 'react';
 
-interface Props {
-  onLogin: () => void;
-}
-
-export default function Login({ onLogin }: Props) {
+export default function Login() {
   const [id, setId]           = useState('');
   const [password, setPassword] = useState('');
   const [error, setError]     = useState('');
@@ -32,10 +28,9 @@ export default function Login({ onLogin }: Props) {
       });
       const data = await res.json() as { ok?: boolean; error?: string };
       if (data.ok) {
-        // URLパラメータをアドレスバーから消す
-        window.history.replaceState({}, '', window.location.pathname);
         sessionStorage.setItem('auth', '1');
-        onLogin();
+        // リロードしてアプリを正常な状態で起動する
+        window.location.replace(window.location.pathname);
       } else {
         setError(data.error ?? 'ログインに失敗しました');
       }

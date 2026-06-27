@@ -78,11 +78,11 @@ function loadState(): AppState {
 
 
 export default function App() {
-  const [authed, setAuthed] = useState(() => sessionStorage.getItem('auth') === '1');
+  const authed = sessionStorage.getItem('auth') === '1';
   const [state, setState] = useState<AppState>(loadState);
 
   if (!authed) {
-    return <Login onLogin={() => setAuthed(true)} />;
+    return <Login />;
   }
 
   useEffect(() => {
