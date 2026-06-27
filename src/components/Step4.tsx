@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import type { AppState } from '../types';
 import { valueCards } from '../data/valueCards';
 
@@ -8,9 +9,14 @@ interface Props {
   onBack: () => void;
 }
 
+type AnalysisStatus = 'idle' | 'loading' | 'done' | 'error';
+
 export default function Step4({ state, update, onBack }: Props) {
-  const top3Cards  = valueCards.filter(c => state.phase2Selected.includes(c.id));
-  const top1Card   = valueCards.find(c => c.id === state.phase3Selected);
+  const [analysisStatus, setAnalysisStatus] = useState<AnalysisStatus>('idle');
+  const [analysisResult, setAnalysisResult] = useState<string>('');
+
+  const top3Cards = valueCards.filter(c => state.phase2Selected.includes(c.id));
+  const top1Card  = valueCards.find(c => c.id === state.phase3Selected);
 
   const updateAction = (index: 0 | 1 | 2, value: string) => {
     const newActions: [string, string, string] = [...state.actions];
@@ -22,6 +28,24 @@ export default function Step4({ state, update, onBack }: Props) {
     state.careerDirection.trim().length > 0 &&
     state.actions.some(a => a.trim().length > 0) &&
     state.finalSummary.trim().length > 0;
+
+  const handleAnalyze = async () => {
+    setAnalysisStatus('loading');
+    setAnalysisResult('');
+    try {
+      const res = await fetch('/api/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(state),
+      });
+      if (!res.ok) throw new Error('API error');
+      const data = await res.json() as { result: string };
+      setAnalysisResult(data.result);
+      setAnalysisStatus('done');
+    } catch {
+      setAnalysisStatus('error');
+    }
+  };
 
   return (
     <div>
@@ -88,7 +112,6 @@ export default function Step4({ state, update, onBack }: Props) {
           <p className="text-sm text-gray-500 mb-4">
             自分らしいキャリアのためにすぐにできることを3つ書いてください。小さなことで十分です。
           </p>
-
           <div className="space-y-3">
             {([0, 1, 2] as const).map(i => (
               <div key={i} className="flex items-start gap-3">
@@ -146,9 +169,95 @@ export default function Step4({ state, update, onBack }: Props) {
         {/* Navigation */}
         <div className="flex justify-between items-center no-print">
           <button onClick={onBack} className="btn-secondary">← 戻る</button>
-          <div className="text-sm text-gray-400">
-            全ステップ完了・エクスポート可能
+          <div className="text-sm text-gray-400">全ステップ完了・エクスポート可能</div>
+        </div>
+
+        {/* AI Analysis block */}
+        <div className="card-base p-6 no-print">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-2xl">🤖</span>
+            <div>
+              <h3 className="font-extrabold text-gray-800">AIによるキャリア分析</h3>
+              <p className="text-xs text-gray-500">
+                ワークショップの結果をAIが客観的に分析します（任意）
+              </p>
+            </div>
           </div>
+
+          <AnimatePresence mode="wait">
+            {analysisStatus === 'idle' && (
+              <motion.div
+                key="idle"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <p className="text-sm text-gray-500 mb-4">
+                  Step1〜4の回答内容をもとに、AIがキャリアの方向性を客観的に評価します。
+                  分析には数秒かかります。
+                </p>
+                <button
+                  onClick={handleAnalyze}
+                  className="btn-primary w-full"
+                >
+                  AIによる分析を受ける
+                </button>
+              </motion.div>
+            )}
+
+            {analysisStatus === 'loading' && (
+              <motion.div
+                key="loading"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="flex flex-col items-center gap-3 py-6"
+              >
+                <div className="w-8 h-8 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin" />
+                <p className="text-sm text-gray-500">AIが分析中です...</p>
+              </motion.div>
+            )}
+
+            {analysisStatus === 'done' && (
+              <motion.div
+                key="done"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+              >
+                <div className="bg-gradient-to-br from-indigo-50 to-violet-50 border border-indigo-100 rounded-xl p-5 mb-4">
+                  <p className="text-sm text-gray-800 leading-relaxed whitespace-pre-wrap">
+                    {analysisResult}
+                  </p>
+                </div>
+                <button
+                  onClick={handleAnalyze}
+                  className="btn-secondary text-sm w-full"
+                >
+                  もう一度分析する
+                </button>
+              </motion.div>
+            )}
+
+            {analysisStatus === 'error' && (
+              <motion.div
+                key="error"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <p className="text-sm text-red-500 mb-4">
+                  分析に失敗しました。しばらく時間をおいて再試行してください。
+                </p>
+                <button
+                  onClick={handleAnalyze}
+                  className="btn-secondary text-sm w-full"
+                >
+                  再試行する
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </div>
