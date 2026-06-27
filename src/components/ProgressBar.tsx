@@ -24,9 +24,21 @@ export default function ProgressBar({ currentStep, onStepClick, className = '' }
           <h1 className="text-sm font-bold text-indigo-700 tracking-tight hidden sm:block">
             キャリアの軸ワークショップ
           </h1>
-          <p className="text-xs text-gray-400 hidden sm:block">
-            {currentStep === 0 ? '開始前' : `Step ${currentStep} / 4`}
-          </p>
+          <div className="flex items-center gap-3">
+            <p className="text-xs text-gray-400 hidden sm:block">
+              {currentStep === 0 ? '開始前' : `Step ${currentStep} / 4`}
+            </p>
+            <button
+              onClick={() => window.location.reload()}
+              title="画面を再読込"
+              className="flex items-center gap-1 px-2 py-1 text-xs text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
+            >
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              再読込
+            </button>
+          </div>
         </div>
 
         {/* Step indicators */}
