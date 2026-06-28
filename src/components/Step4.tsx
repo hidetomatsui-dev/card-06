@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { track } from '@vercel/analytics';
+import { trackEvent } from '../utils/track';
 import type { AppState } from '../types';
 import { valueCards } from '../data/valueCards';
 import { generatePlainText } from '../utils/export';
@@ -52,10 +52,7 @@ export default function Step4({ state, update, onBack }: Props) {
       }
       update({ aiAnalysis: data.result ?? '' });
       setAnalysisStatus('done');
-      if (!sessionStorage.getItem('tracked_ai')) {
-        sessionStorage.setItem('tracked_ai', '1');
-        track('ai_analysis_used');
-      }
+      trackEvent('ai_analysis_used');
     } catch (err) {
       setAnalysisError(String(err));
       setAnalysisStatus('error');

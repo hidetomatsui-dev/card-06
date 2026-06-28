@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { track } from '@vercel/analytics';
+import { trackEvent } from './utils/track';
 import type { AppState } from './types';
 import { ohbyCards } from './data/ohbyCards';
 import { valueCards } from './data/valueCards';
@@ -91,10 +91,7 @@ export default function App() {
   }, [state]);
 
   useEffect(() => {
-    if (!sessionStorage.getItem('tracked_step_0')) {
-      sessionStorage.setItem('tracked_step_0', '1');
-      track('step_0_visited');
-    }
+    trackEvent('step_0_visited');
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -105,11 +102,7 @@ export default function App() {
   const goToStep = (step: number) => {
     update({ currentStep: step });
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    const key = `tracked_step_${step}`;
-    if (!sessionStorage.getItem(key)) {
-      sessionStorage.setItem(key, '1');
-      track(`step_${step}_visited`);
-    }
+    trackEvent(`step_${step}_visited`);
   };
 
   const steps = [
